@@ -1,0 +1,109 @@
+<html>
+
+    <head>
+
+        <script src="/html/lib/jquery.min.js"></script>
+        <script src="/html/js/CardReference.js"></script>
+
+    </head>
+    <style>
+            .flex-container {
+              display: flex;
+              flex-direction: row;
+            }
+
+            /*  .flex-container > div {
+              background-color: #f1f1f1;
+              margin: 10px;
+              font-size: 30px;
+               flex-grow: 2;
+            }*/
+
+            .top-play {
+                position:relative;
+                /*display:inline-block;*/
+                top : 0px;
+                height:50%;
+                margin: 10px;
+            }
+
+            .bottom-play {
+                /*display:inline-block;*/
+                position:relative;
+                bottom : 0px;
+                height:60%;
+                margin: 10px;
+            }
+
+             .log-event {
+                background-color: #c1c1c1;
+                /*width:20%;*/
+                /*height:50%;*/
+                flex-basis: 20%;
+                flex-shrink: 100;
+            }
+
+            .playground {
+                /*display:inline-block;*/
+                /*height:50%;*/
+                /*width:60%;*/
+                flex-basis: 80%;
+            }
+
+        </style>
+
+        <script>
+            function searchGame(playerId) {
+            /*
+            $.post('/searchGame', { playerid:playerId }, function(data) {
+                    console.log(data);
+                });
+            */
+                $.get('/searchGame?playerid='+playerId, function(data) {
+                    console.log(data);
+                    var exampleSocket = new WebSocket("ws://127.0.0.1:8080"+data);
+                    exampleSocket.onmessage = function (event) {
+                      console.log(event.data);
+                      if (JSON.parse(event.data).type === 'adv-pioche') {
+                            document.getElementById('events1').innerHTML = document.getElementById('events1').innerHTML + event.data + '<br>';
+                      }
+                    }
+                });
+            }
+        </script>
+
+    <body>
+        <div  class="top-play flex-container">
+            <div id="events1" class="log-event">
+                <button onclick="searchGame('p1')">Search game</button>
+            </div>
+            <div id="playground1" class="playground"></div>
+        </div>
+
+        <div  class="bottom-play flex-container">
+            <div id="events2" class="log-event">
+                <button onclick="searchGame('p2')">Search game</button>
+            </div>
+            <div id="playground2" class="playground"></div>
+        </div>
+
+    <script>
+       /* var exampleSocket = new WebSocket("ws://127.0.0.1:8080/myapi1");
+        exampleSocket.onmessage = function (event) {
+          console.log(event.data);
+          if (JSON.parse(event.data).type === 'adv-pioche') {
+                document.getElementById('events1').innerHTML = document.getElementById('events1').innerHTML + event.data + '<br>';
+          }
+        }
+
+        var exampleSocket2 = new WebSocket("ws://127.0.0.1:8080/myapi2");
+        exampleSocket2.onmessage = function (event) {
+          console.log(event.data);
+          if (JSON.parse(event.data).type === 'pioche') {
+            document.getElementById('events2').innerHTML = document.getElementById('events2').innerHTML + event.data + '<br>';
+          }
+        }*/
+    </script>
+
+    </body>
+</html>

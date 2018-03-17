@@ -1,0 +1,52 @@
+.f1_container {
+  /*position: relative;
+  margin: 10px auto;
+  width: 100%;*/
+  height: 200px;
+  z-index: 1;
+  display: flex;
+  flex-flow: row wrap;
+  /* This aligns items to the end line on main-axis */
+  justify-content: space-evenly;
+  perspective: 1000;
+}
+
+/* TODO contains for each card in order to space well : at most 5 card per row*/
+
+.f1_card {
+  /* TODO : pour le container ? flex: 1 0 20%;*/
+  border-style: dotted;
+  width: 150px;
+  height: 200px;
+  transform-style: preserve-3d;
+  transition: all 0.7s linear;
+}
+
+.f1_big-card {
+  border-style: dotted;
+  width: 300px;
+  height: 400px;
+  transform-style: preserve-3d;
+  transition: all 0.7s linear;
+}
+
+.f1_container:hover .f1_card {
+
+}
+
+.rotate {
+    transform: rotateY(180deg);
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+.face.back {
+  display: block;
+  transform: rotateY(180deg);
+  box-sizing: border-box;
+  /*padding: 10px; pk avoir mis ca je retire */
+}
