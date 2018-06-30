@@ -1,9 +1,6 @@
 package card.v2;
 
-import card.v2.event.Dispatcher;
-import card.v2.event.EventInfo;
-import card.v2.event.Trigger;
-import card.v2.event.Watcher;
+import card.v2.event.*;
 import card.v2.ingame.CardInGame;
 import card.v2.ingame.PlayerInGame;
 import card.v2.type.Card;
@@ -75,7 +72,7 @@ public class Game extends Watcher {
             indexTurn = 0;
         }
         playerTurn = players.get(indexTurn);
-        getDispatcher().dispatchEvent(Trigger.NEW_TURN, new EventInfo(this, playerTurn, null, new Watcher[]{}));
+        getDispatcher().dispatchEvent(Trigger.NEW_TURN, new EventInfo(Action.INITIATE_NEW_TURN, this, playerTurn, null, new Watcher[]{}));
         return playerTurn;
     }
 

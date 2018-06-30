@@ -55,7 +55,7 @@ public class PlayerInGame extends Watcher {
     }
 
     public void initWatch() {
-        watch(Trigger.NEW_TURN, Trigger.DRAW, Trigger.HEAL, Trigger.ATTACK, Trigger.NOTIFY_PLAYER);
+        watch(Trigger.NEW_TURN, Trigger.DRAW, Trigger.OPPONENT_DRAW, Trigger.HEAL, Trigger.ATTACK, Trigger.NOTIFY_PLAYER);
     }
 
     public CardInGame draw() {
@@ -83,7 +83,7 @@ public class PlayerInGame extends Watcher {
 
     public void endTurn() {
         //EnumMap<Characteristic, Object> notifyData = Game.getNotifyData(this, this, Collections.emptyList(), 0);
-        getDispatcher().dispatchEvent(Trigger.END_TURN, new EventInfo(game, this, null, new Watcher[]{}));
+        getDispatcher().dispatchEvent(Trigger.END_TURN, new EventInfo(Action.END_TURN, game, this, null, new Watcher[]{}));
     }
 
     @Override
@@ -95,7 +95,13 @@ public class PlayerInGame extends Watcher {
         } else if (eventType.equals(Trigger.NOTIFY_PLAYER)) {
             wsDispatcher.writeFinalTextFrame(data.asJson());
         } else if (Trigger.DRAW.equals(eventType)) {
-            wsDispatcher.writeFinalTextFrame(data.asJson());
+            if (data.getWho().getUuid().equals(this.getUuid())) {
+                wsDispatcher.writeFinalTextFrame(data.asJson());
+            }
+        } else if (Trigger.OPPONENT_DRAW.equals(eventType)) {
+            if (!data.getWho().getUuid().equals(this.getUuid())) {
+                wsDispatcher.writeFinalTextFrame(data.asJson());
+            }
         }
     }
 

@@ -51,7 +51,7 @@ public final class HsTest {
 
 
         playerTurn = game.getPlayerTurn();
-        Action.ATTACK.consume(new EventInfo(game, //
+        Action.ATTACK.consume(new EventInfo(Action.ATTACK, game, //
                 game.getBoard().getBoards().get(playerTurn).get(0),//
                 null,//
                 new Watcher[]{game.getBoard().getCardById(cp2Uuid)}));
@@ -65,7 +65,7 @@ public final class HsTest {
         final Card healSolo = allCards.get("healSolo");
         final CardInGame healingCard = game.summonNewCard(playerTurn, healSolo);
         Action.HEAL.consume(new EventInfo(//
-                game, //
+                Action.HEAL, game, //
                 playerTurn, //
                 healingCard, //
                 new Watcher[]{game.getBoard().getPlayerCards(playerTurn).get(0)}
@@ -85,6 +85,7 @@ public final class HsTest {
             while ((cardName = properties.getProperty("cards." + i + ".name")) != null) {
                 final String cardId = properties.getProperty("cards." + i + ".id");
                 final String cardPrice = properties.getProperty("cards." + i + ".cost");
+                final String relativeUrl = properties.getProperty("cards." + i + ".url");
                 final String life = properties.getProperty("cards." + i + ".life");
                 final String type = properties.getProperty("cards." + i + ".type");
                 final String attack = properties.getProperty("cards." + i + ".attack");
@@ -102,13 +103,12 @@ public final class HsTest {
                     j++;
                 }
                 final CardType cardType = CardType.valueOf(type);
-                final Card card = new Card(cardId, cardName, Integer.parseInt(cardPrice), Integer.parseInt(life), Integer.parseInt(attack), cardType, effects);
+                final Card card = new Card(cardId, cardName, Integer.parseInt(cardPrice), Integer.parseInt(life), Integer.parseInt(attack), relativeUrl, cardType, effects);
                 allCards.put(card.getId(), card);
                 i++;
             }
             return allCards;
         }
     }
-
 
 }

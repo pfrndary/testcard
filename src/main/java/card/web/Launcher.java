@@ -110,7 +110,7 @@ public class Launcher extends AbstractVerticle {
                                 final Game game = new Game(new Dispatcher(), players, websockets, allCards);
                                 game.startGame();
                                 games.put(game.getUuid(), game);
-                                Action.INITIATE_NEW_TURN.consume(new EventInfo(game, game.getPlayerTurn(), null, new Watcher[0]));
+                                Action.INITIATE_NEW_TURN.consume(new EventInfo(Action.INITIATE_NEW_TURN, game, game.getPlayerTurn(), null, new Watcher[0]));
                             }
                             request.response().end();
                         } else {
@@ -142,6 +142,7 @@ public class Launcher extends AbstractVerticle {
                         response.write(responseBody);
 
                         response.end();
+                        //TODO un WS pour connaitre l'URL d'une carte en fonction de son ID
                         ///////////////////////////////////////////////////////
                         // THE CALL IS NOT VALID
                     } else {

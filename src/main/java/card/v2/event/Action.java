@@ -21,11 +21,20 @@ public enum Action {
         Action.valueOf("DRAW").consume(eventInfo);
     }), //
     DRAW((eventInfo) -> {
-        PlayerInGame who = (PlayerInGame) eventInfo.getWho();
+        final PlayerInGame who = (PlayerInGame) eventInfo.getWho();
         System.out.println(eventInfo.getGame().getPlayerByUid(who.getUuid()).getPlayerData().getName() + " DRAW");
-        who.draw();
-        eventInfo.getGame().getDispatcher().dispatchEvent(Trigger.DRAW, eventInfo);
+        final CardInGame draw = who.draw();
+        EventInfo drawEventForOwner = new EventInfo(Action.valueOf("DRAW"), eventInfo.getGame(), who, draw, new Watcher[0]);
+        eventInfo.getGame().getDispatcher().dispatchEvent(Trigger.DRAW, drawEventForOwner);
+        Action.valueOf("OPPONENT_DRAW").consume(eventInfo);
     }), //
+    OPPONENT_DRAW((eventInfo) -> {
+        final Game game = eventInfo.getGame();
+        final EventInfo drawEventOfOpponent = new EventInfo(Action.valueOf("OPPONENT_DRAW"), game, eventInfo.getWho(), null, new Watcher[0]);
+
+        // TODO remove current player des destinataire ?
+        game.getDispatcher().dispatchEvent(Trigger.OPPONENT_DRAW, drawEventOfOpponent);
+    }),
     PLAY_CARD((eventInfo) -> {
         PlayerInGame playerByUid = (PlayerInGame) eventInfo.getWho();// eventInfo.getGame().getPlayerByUid(eventInfo.getWho().getUuid());
         System.out.println(playerByUid.getPlayerData().getName() + " PLAY_CARD");

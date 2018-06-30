@@ -2,14 +2,17 @@ package card.v2.js;
 
 import card.v2.event.Action;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public final class Toolbox {
 
-    public static final String WS_JS_FILE_NAME = "ws-events.js";
+    private static final String WS_JS_FILE_NAME = "ws-events.js";
 
     private static StringBuilder generateJsFunctions() {
         final Action[] actions = Action.values();
@@ -66,8 +69,31 @@ public final class Toolbox {
         }
     }
 
-    public static void main(String... s) {
-        generateWholeJs();
+
+    private static void generateDummyPropertiesFile(int count) throws IOException {
+        final File file = new File("test.properties");
+        try (OutputStream outputStream = new FileOutputStream(file)) {
+            for (int i = 0; i < count; i++) {
+                outputStream.write(("cards." + i + ".name=name" + i + "\n").getBytes());
+                outputStream.write(("cards." + i + ".id=id" + i + "\n").getBytes());
+                outputStream.write(("cards." + i + ".cost=" + i + "\n").getBytes());
+                outputStream.write(("cards." + i + ".url=/image/hs/img" + i + ".png\n").getBytes());
+                outputStream.write(("cards." + i + ".life=" + i + "\n").getBytes());
+                outputStream.write(("cards." + i + ".type=UNIT" + "\n").getBytes());
+                outputStream.write(("cards." + i + ".attack=" + i + "\n").getBytes());
+
+
+                outputStream.write(("cards." + i + ".triggers.0.type=HEAL\n").getBytes());
+                outputStream.write(("cards." + i + ".triggers.0.target=UNITS\n").getBytes());
+                outputStream.write(("cards." + i + ".triggers.0.do=DRAW\n").getBytes());
+            }
+        }
+    }
+
+
+    public static void main(String... s) throws IOException {
+        generateDummyPropertiesFile(3);
+        //generateWholeJs();
     }
 
 }

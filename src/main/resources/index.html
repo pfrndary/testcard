@@ -3,6 +3,7 @@
     <head>
 
         <script src="/html/lib/jquery.min.js"></script>
+        <script src="/html/js/ws-events.js"></script>
         <script src="/html/js/CardReference.js"></script>
 
     </head>
@@ -53,12 +54,7 @@
         </style>
 
         <script>
-            function searchGame(playerId) {
-            /*
-            $.post('/searchGame', { playerid:playerId }, function(data) {
-                    console.log(data);
-                });
-            */
+            /*function searchGame(playerId) {
                 $.get('/searchGame?playerid='+playerId, function(data) {
                     console.log(data);
                     var exampleSocket = new WebSocket("ws://127.0.0.1:8080"+data);
@@ -69,7 +65,7 @@
                       }
                     }
                 });
-            }
+            }*/
         </script>
 
     <body>

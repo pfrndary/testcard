@@ -2,7 +2,6 @@ package card.v2.ingame;
 
 import card.v2.event.*;
 import card.v2.type.Card;
-import card.v2.type.Player;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +21,7 @@ public class CardInGame extends Watcher {
         this.card = card;
     }
 
-    public void initWatch() {
+    void initWatch() {
         this.currentLife = card.getLife();
         for (Effect effect : card.getTriggers()) {
             watch(effect.getTrigger());
@@ -40,7 +39,7 @@ public class CardInGame extends Watcher {
         final List<Effect> collect = triggers.stream().filter(effect -> effect.getTrigger().equals(trigger)).collect(Collectors.toList());
         for (Effect effect : collect) {
             if (effect.getAction().equals(Action.DRAW)) {
-                Action.DRAW.consume(new EventInfo(data.getGame(), owner, null, null));
+                Action.DRAW.consume(new EventInfo(Action.DRAW, data.getGame(), owner, null, null));
                 /*final PlayerInGame to = (PlayerInGame) data.getWho();
                 final Player playerData = to.getPlayerData();
                 if (owner.getPlayerData().getName().equals(playerData.getName())) {

@@ -17,7 +17,7 @@ public class Card {
     private final List<Effect> triggers;
 
 
-    public Card(String id, String name, int price, int life, int attack, CardType cardType, List<Effect> triggers) {
+    public Card(String id, String name, int price, int life, int attack, String relativePathUrl, CardType cardType, List<Effect> triggers) {
         this.id = id;
         this.name = name;
         this.price = price;
